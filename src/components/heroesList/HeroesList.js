@@ -31,9 +31,12 @@ const HeroesList = () => {
         return <h5 className="text-center mt-5">Ошибка загрузки</h5>
     }
 
-    const onEraseHero = (id) => {
+    // Удаление героя из списка. Если раскомментировать первую строчку герой будет удаляться и из базы данных.
+    const onEraseHero =(id) => {
+        // request(`http://localhost:3001/heroes/${id}`, 'DELETE');
         const changeHeroes = heroes.filter(heroesItem => heroesItem.id !==id)
         dispatch(heroesFetched(changeHeroes))
+
     }
 
     const renderHeroesList = (arr) => {
