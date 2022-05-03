@@ -1,7 +1,7 @@
 import {useHttp} from '../../hooks/http.hook';
-import { useEffect } from 'react';
+import { useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Transition, TransitionGroup } from 'react-transition-group';
+// import { Transition, TransitionGroup } from 'react-transition-group';
 
 import { heroesFetching, heroesFetched, heroesFetchingError } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
@@ -16,21 +16,8 @@ const HeroesList = () => {
     const {heroes, heroesLoadingStatus} = useSelector(state => state);
     const dispatch = useDispatch();
     const {request} = useHttp();
+    const [inProp, setInProp] = useState(true);
 
-    // Transition
-    const duration = 300;
-   
-    const defaultStyle = {
-        transition: `all ${duration}ms ease-in-out`,
-        opacity: 0,
-      }
-    const transitionStyles = {
-        entering: { opacity : 0},
-        entered:  { opacity: 1},
-        exiting:  { opacity: 1 },
-        exited:  { opacity: 0 },
-    }
-    // 
 
     useEffect(() => {
         dispatch(heroesFetching());
@@ -50,9 +37,11 @@ const HeroesList = () => {
     // Удаление героя из списка. Если раскомментировать первую строчку герой будет удаляться и из базы данных.
     const onEraseHero =(id) => {
         // request(`http://localhost:3001/heroes/${id}`, 'DELETE');
+        setInProp(false)
         const changeHeroes = heroes.filter(heroesItem => heroesItem.id !==id)
         dispatch(heroesFetched(changeHeroes))
-
+        
+        
     }
 
     const renderHeroesList = (arr) => {
@@ -61,25 +50,14 @@ const HeroesList = () => {
         }
 
         return arr.map(({id, ...props}) => {
-            return <HeroesListItem onEraseHero = {()=>onEraseHero(id)} key={id} {...props}/>
+            return <HeroesListItem onEraseHero = {()=>onEraseHero(id)} key={id} {...props} inProp={inProp}/>
         })
     }
 
     const elements = renderHeroesList(heroes);
     return (
         <ul>
-           <TransitionGroup appear>
-                <Transition timeout={duration}>
-                    {state => (
-                        <div style={{
-                            ...defaultStyle,
-                            ...transitionStyles[state]
-                        }}>
-                        {elements}
-                        </div>
-                    )}  
-                </Transition>
-           </TransitionGroup>
+          {elements}
         </ul>
     )
 }
