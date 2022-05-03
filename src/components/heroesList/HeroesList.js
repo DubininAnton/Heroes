@@ -1,6 +1,7 @@
 import {useHttp} from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Transition, TransitionGroup } from 'react-transition-group';
 
 import { heroesFetching, heroesFetched, heroesFetchingError } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
@@ -15,6 +16,21 @@ const HeroesList = () => {
     const {heroes, heroesLoadingStatus} = useSelector(state => state);
     const dispatch = useDispatch();
     const {request} = useHttp();
+
+    // Transition
+    const duration = 300;
+   
+    const defaultStyle = {
+        transition: `all ${duration}ms ease-in-out`,
+        opacity: 0,
+      }
+    const transitionStyles = {
+        entering: { opacity : 0},
+        entered:  { opacity: 1},
+        exiting:  { opacity: 1 },
+        exited:  { opacity: 0 },
+    }
+    // 
 
     useEffect(() => {
         dispatch(heroesFetching());
@@ -52,7 +68,18 @@ const HeroesList = () => {
     const elements = renderHeroesList(heroes);
     return (
         <ul>
-            {elements}
+           <TransitionGroup appear>
+                <Transition timeout={duration}>
+                    {state => (
+                        <div style={{
+                            ...defaultStyle,
+                            ...transitionStyles[state]
+                        }}>
+                        {elements}
+                        </div>
+                    )}  
+                </Transition>
+           </TransitionGroup>
         </ul>
     )
 }
