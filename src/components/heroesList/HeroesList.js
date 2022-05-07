@@ -1,9 +1,8 @@
 import {useHttp} from '../../hooks/http.hook';
-import { useEffect, useState} from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { Transition, TransitionGroup } from 'react-transition-group';
 
-import { heroesFetching, heroesFetched, heroesFetchingError } from '../../actions';
+import { newheroesFetched, heroesFetching, heroesFetched, heroesFetchingError } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
@@ -12,12 +11,11 @@ import Spinner from '../spinner/Spinner';
 // Усложненная задача:
 // Удаление идет и с json файла при помощи метода DELETE
 
-const HeroesList = () => {
+
+const HeroesList = ({newHero}) => {
     const {heroes, heroesLoadingStatus} = useSelector(state => state);
     const dispatch = useDispatch();
     const {request} = useHttp();
-    const [inProp, setInProp] = useState(true);
-
 
     useEffect(() => {
         dispatch(heroesFetching());
@@ -28,6 +26,18 @@ const HeroesList = () => {
         // eslint-disable-next-line
     }, []);
 
+    // Добавляю нового героя. Из HeroesAddForm Formik'ом собираю данные
+    // отправляю через App сюда, добавляю в heroes и reduce'ю.
+    // Если раскоммениторовать request новый герой будет записываться в heroes.json
+    useEffect(()=> {
+        if(newHero !== undefined) {
+        // request(`http://localhost:3001/heroes`, 'POST', JSON.stringify(newHero)); 
+        const newItem = [...heroes, newHero]
+        newHeroAdd(newItem)
+        }
+        // eslint-disable-next-line
+    },[newHero]);
+
     if (heroesLoadingStatus === "loading") {
         return <Spinner/>;
     } else if (heroesLoadingStatus === "error") {
@@ -37,12 +47,19 @@ const HeroesList = () => {
     // Удаление героя из списка. Если раскомментировать первую строчку герой будет удаляться и из базы данных.
     const onEraseHero =(id) => {
         // request(`http://localhost:3001/heroes/${id}`, 'DELETE');
-        setInProp(false)
         const changeHeroes = heroes.filter(heroesItem => heroesItem.id !==id)
-        dispatch(heroesFetched(changeHeroes))
-        
-        
+        DeleteHero(changeHeroes)   
     }
+
+   
+    const DeleteHero = (arr) => {
+        dispatch(heroesFetched(arr)) 
+    }
+
+    const newHeroAdd = (newHero) => {
+        dispatch(newheroesFetched(newHero))
+    }
+
 
     const renderHeroesList = (arr) => {
         if (arr.length === 0) {
@@ -50,7 +67,7 @@ const HeroesList = () => {
         }
 
         return arr.map(({id, ...props}) => {
-            return <HeroesListItem onEraseHero = {()=>onEraseHero(id)} key={id} {...props} inProp={inProp}/>
+            return <HeroesListItem onEraseHero = {()=>onEraseHero(id)} key={id} {...props}/>
         })
     }
 

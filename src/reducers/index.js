@@ -17,6 +17,17 @@ const reducer = (state = initialState, action) => {
                 heroes: action.payload,
                 heroesLoadingStatus: 'idle'
             }
+        case 'ADD_NEW_HERO':
+            return {
+                ...state,
+                heroes: action.payload,
+                heroesLoadingStatus: 'idle'
+            }
+        case 'FILTERS_FETCHED':
+            return {
+                ...state,
+                filters: action.payload,
+            }
         case 'HEROES_FETCHING_ERROR':
             return {
                 ...state,

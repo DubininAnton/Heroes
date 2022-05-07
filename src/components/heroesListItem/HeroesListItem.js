@@ -1,6 +1,6 @@
 import { Transition, TransitionGroup } from 'react-transition-group';
 
-const HeroesListItem = ({name, description, element, onEraseHero, inProp}) => {
+const HeroesListItem = ({name, description, element, onEraseHero}) => {
    
 
     // Transition
@@ -38,9 +38,10 @@ const HeroesListItem = ({name, description, element, onEraseHero, inProp}) => {
             elementClassName = 'bg-warning bg-gradient';
     }
 
+
     return (
         <TransitionGroup appear>
-            <Transition in={inProp} timeout={duration}>
+            <Transition timeout={duration}>
                 {state => (
                     <ul style={{
                         ...defaultStyle,
