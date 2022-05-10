@@ -1,6 +1,7 @@
 import {useHttp} from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { createSelector } from 'reselect';
 
 import { newheroesFetched, heroesFetching, heroesFetched, heroesFetchingError } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
@@ -13,7 +14,12 @@ import Spinner from '../spinner/Spinner';
 
 
 const HeroesList = ({newHero}) => {
-    const {heroes, heroesLoadingStatus} = useSelector(state => state);
+    const filteredHeroesSelector = createSelector(
+        (state)=> state.heroes.heroes,
+    );
+
+    const filteredHeroes = useSelector(state => state.heroes.heroes);
+    const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
@@ -22,7 +28,7 @@ const HeroesList = ({newHero}) => {
         request("http://localhost:3001/heroes")
             .then(data => dispatch(heroesFetched(data)))
             .catch(() => dispatch(heroesFetchingError()))
-
+            
         // eslint-disable-next-line
     }, []);
 
@@ -32,7 +38,7 @@ const HeroesList = ({newHero}) => {
     useEffect(()=> {
         if(newHero !== undefined) {
         // request(`http://localhost:3001/heroes`, 'POST', JSON.stringify(newHero)); 
-        const newItem = [...heroes, newHero]
+        const newItem = [...filteredHeroes, newHero]
         newHeroAdd(newItem)
         }
         // eslint-disable-next-line
@@ -47,7 +53,7 @@ const HeroesList = ({newHero}) => {
     // Удаление героя из списка. Если раскомментировать первую строчку герой будет удаляться и из базы данных.
     const onEraseHero =(id) => {
         // request(`http://localhost:3001/heroes/${id}`, 'DELETE');
-        const changeHeroes = heroes.filter(heroesItem => heroesItem.id !==id)
+        const changeHeroes = filteredHeroes.filter(heroesItem => heroesItem.id !==id)
         DeleteHero(changeHeroes)   
     }
 
@@ -71,7 +77,7 @@ const HeroesList = ({newHero}) => {
         })
     }
 
-    const elements = renderHeroesList(heroes);
+    const elements = renderHeroesList(filteredHeroes);
     return (
         <ul>
           {elements}

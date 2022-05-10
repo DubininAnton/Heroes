@@ -10,7 +10,7 @@ import { useEffect, useCallback } from "react";
 // Представьте, что вы попросили бэкенд-разработчика об этом
 
 const HeroesFilters = () => {
-    const {filters} = useSelector(state => state)
+    const {filters} = useSelector(state => state.filters)
 
     const  renderBtn = useCallback((filters) => {
 

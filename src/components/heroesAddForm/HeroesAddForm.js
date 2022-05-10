@@ -18,7 +18,7 @@ import * as Yup from 'yup';
 // данных из фильтров
 
 const HeroesAddForm = (props) => {
-    const {filters} = useSelector(state => state)
+    const {filters} = useSelector(state => state.filters)
     const {request} = useHttp();
     const dispatch = useDispatch();
     
