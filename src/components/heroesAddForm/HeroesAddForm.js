@@ -18,7 +18,7 @@ import { newheroesFetched } from "../../actions";
 // Элементы <option></option> желательно сформировать на базе
 // данных из фильтров
 
-const HeroesAddForm = (props) => {
+const HeroesAddForm = () => {
     const {filters} = useSelector(state => state.filters)
     const {request} = useHttp();
     const dispatch = useDispatch();
@@ -81,7 +81,7 @@ const HeroesAddForm = (props) => {
             return <option className="text-center mt-5">Фильтров пока нет</option>
         }
         return filters.map(({label, name}) => {
-            return label !== "Все" ? <option key ={uuidv4()}>{label}</option> : null
+            return label !== "Все" ? <option value={name} key ={uuidv4()}>{label}</option> : null
         })
     }
 

@@ -1,7 +1,7 @@
 import {useHttp} from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { newheroesFetched, heroesFetching, heroesFetched, heroesFetchingError } from '../../actions';
+import { fetchHeroes, newheroesFetched, heroesFetched } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
@@ -12,23 +12,18 @@ import Spinner from '../spinner/Spinner';
 
 
 const HeroesList = ({newHero}) => {
-    // const filteredHeroesSelector = createSelector(
-    //     (state)=> state.heroes.heroes,
-    // );
 
     const {filteredHeroes} = useSelector(state => state.heroes);
     const {heroesLoadingStatus} = useSelector(state => state.heroes);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
+    // Использовал ReduxThunk
     useEffect(() => {
-        dispatch(heroesFetching());
-        request("http://localhost:3001/heroes")
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(() => dispatch(heroesFetchingError()))
-            
+        dispatch(fetchHeroes(request));   
         // eslint-disable-next-line
     }, []);
+    // 
 
     // Добавляю нового героя. Из HeroesAddForm Formik'ом собираю данные
     // отправляю через App сюда, добавляю в heroes и reduce'ю.
