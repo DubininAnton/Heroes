@@ -5,6 +5,7 @@ import { filtersFetched } from "../../actions";
 import { v4 as uuidv4 } from 'uuid';
 import { Formik, Form, useField, Field } from "formik";
 import * as Yup from 'yup';
+import { newheroesFetched } from "../../actions";
 
 
 // Задача для этого компонента:
@@ -79,8 +80,8 @@ const HeroesAddForm = (props) => {
         if (filters.length === 0) {
             return <option className="text-center mt-5">Фильтров пока нет</option>
         }
-        return filters.map(({value, name}) => {
-            return <option key ={uuidv4()} value={value}>{name}</option>
+        return filters.map(({label, name}) => {
+            return label !== "Все" ? <option key ={uuidv4()}>{label}</option> : null
         })
     }
 
@@ -101,7 +102,7 @@ const HeroesAddForm = (props) => {
         //     element: Yup.string().required("Выбирите один из вариантов")
             
         // })}
-        onSubmit = {(values) => {props.addHero(values)}}>
+        onSubmit = {(values) => dispatch(newheroesFetched(values))}>
    
            {({resetForm})=>(
               <Form className="border p-4 shadow-lg rounded">

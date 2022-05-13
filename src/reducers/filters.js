@@ -1,5 +1,5 @@
 const initialState = {
-    filters: []
+    filters: [],
 }
 
 const filters = (state = initialState, action) => {

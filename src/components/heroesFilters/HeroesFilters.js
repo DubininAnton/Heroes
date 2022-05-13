@@ -1,6 +1,7 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { v4 as uuidv4 } from 'uuid';
-import { useEffect, useCallback } from "react";
+import { changedHero } from "../../actions";
+import classNames from 'classnames'; 
 
 // Задача для этого компонента:
 // Фильтры должны формироваться на основании загруженных данных
@@ -10,16 +11,18 @@ import { useEffect, useCallback } from "react";
 // Представьте, что вы попросили бэкенд-разработчика об этом
 
 const HeroesFilters = () => {
-    const {filters} = useSelector(state => state.filters)
+    const {filters} = useSelector(state => state.filters);
+    const {activeChangedHero} = useSelector(state => state.heroes)
+    const dispatch = useDispatch();
 
-    const  renderBtn = useCallback((filters) => {
+    const  renderBtn = (filters) => {
 
-        return filters.map(({value, name})=>{
+        return filters.map(({name, label})=>{
 
             let elementClassName;
 
-            switch(value) {
-                case "":
+            switch(name) {
+                case "all":
                     elementClassName = "btn btn-outline-dark";
                     break;
                 case "fire":
@@ -38,43 +41,13 @@ const HeroesFilters = () => {
                     elementClassName="";
         
             }
-            if(elementClassName === "btn btn-outline-dark") {
-                return <button onClick={(e)=>filterItem(e, "all")} key ={uuidv4()} value={'all'} className={`${elementClassName}`}>Все</button> 
-            } else {
-                return <button onClick={(e)=>filterItem(e, value)} key ={uuidv4()} value={value} className={`${elementClassName}`}>{name}</button>
-            }
-        })
-        // eslint-disable-next-line
-    },[filters])
 
-    // Первоначальная установка свойста active на кнопку "Все"
-    useEffect((filters)=>{
-        document.querySelectorAll(".btn").forEach((item)=>{
-            if(item.value === "all") {
-                item.classList.add("active")
-            }})
-    },[filters])
-    // 
-    // Фильтрация элементов
-    const filterItem = (e, value) => {
-        document.querySelectorAll(".btn").forEach((item)=>{
-            item.classList.remove('active')});
-        document.querySelectorAll(".btn").forEach((item)=>{
-            if(e.target.value === item.value) {
-                item.classList.add('active')
-            } 
+            let btnClass = classNames({'active' : name === activeChangedHero})
+
+                return name !=="" ? <button onClick={()=>dispatch(changedHero(name))} key ={uuidv4()} className={`${elementClassName} ${btnClass}`}>{label}</button> : null 
         })
-        document.querySelectorAll(".cardItem").forEach((item)=>{
-            item.style.display = "block"
-            if(e.target.value !== item.dataset.element) {
-                item.style.display="none"
-            }
-            if(e.target.value === "all") {
-                item.style.display = "block"
-            }
-        }) 
+       
     }
-    // 
 
     const btn = renderBtn(filters)
 

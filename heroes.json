@@ -27,24 +27,28 @@
   ],
   "filters": [
     {
-      "value": "",
-      "name": "Выберите элемент"
+      "name": "",
+      "label": "Выберите элемент"
     },
     {
-      "value": "fire",
-      "name": "Огонь"
+      "name": "all",
+      "label": "Все"
     },
     {
-      "value": "water",
-      "name": "Вода"
+      "name": "fire",
+      "label": "Огонь"
     },
     {
-      "value": "wind",
-      "name": "Ветер"
+      "name": "water",
+      "label": "Вода"
     },
     {
-      "value": "earth",
-      "name": "Земля"
+      "name": "wind",
+      "label": "Ветер"
+    },
+    {
+      "name": "earth",
+      "label": "Земля"
     }
   ]
 }
