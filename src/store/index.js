@@ -11,7 +11,8 @@
 
 // import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
-import heroes from '../reducers/heroes';
+// import heroes from '../reducers/heroes'; 
+import heroes from '../components/heroesList/heroesSlice';
 import filters from '../reducers/filters';
 // import ReduxFunk from "redux-thunk";
 

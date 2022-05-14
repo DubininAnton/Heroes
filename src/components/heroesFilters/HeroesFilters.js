@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { v4 as uuidv4 } from 'uuid';
-import { changedHero } from "../../actions";
+import { changedHero } from "../heroesList/heroesSlice";
 import classNames from 'classnames'; 
 
 // Задача для этого компонента:

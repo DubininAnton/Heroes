@@ -5,7 +5,7 @@ import { filtersFetched } from "../../actions";
 import { v4 as uuidv4 } from 'uuid';
 import { Formik, Form, useField, Field } from "formik";
 import * as Yup from 'yup';
-import { newheroesFetched } from "../../actions";
+import { newheroesFetched } from "../heroesList/heroesSlice";
 
 
 // Задача для этого компонента:

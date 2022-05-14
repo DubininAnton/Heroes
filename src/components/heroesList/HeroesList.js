@@ -1,7 +1,8 @@
 import {useHttp} from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchHeroes, newheroesFetched, heroesFetched } from '../../actions';
+import {newheroesFetched, fetchHeroes} from './heroesSlice';
+import {heroesFetched} from './heroesSlice';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 import { createSelector } from 'reselect';
@@ -32,7 +33,7 @@ const HeroesList = ({newHero}) => {
 
     // Использовал ReduxThunk
     useEffect(() => {
-        dispatch(fetchHeroes(request));   
+        dispatch(fetchHeroes());   
         // eslint-disable-next-line
     }, []);
     // 
