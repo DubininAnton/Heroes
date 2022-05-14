@@ -9,13 +9,25 @@
 
 // Второй вариант создания стора из двух файлов reducer (heroes, filters)
 
-import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+// import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import heroes from '../reducers/heroes';
 import filters from '../reducers/filters';
-import ReduxFunk from "redux-thunk";
+// import ReduxFunk from "redux-thunk";
 
-const store = createStore( combineReducers ({heroes, filters}), 
-                            compose(applyMiddleware(ReduxFunk),
-                            window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+// const store = createStore( combineReducers ({heroes, filters}), 
+//                             compose(applyMiddleware(ReduxFunk),
+//                             window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+
+
+//  Третий вариант создания storeри помощи ToolKit. В тглкит уже вкдючены миддлвэар в том числе и ReduxFunk 
+//  и достаются они командой getDefaultMiddleware.
+const store = configureStore({
+    reducer: {heroes, filters},
+    middleware: getDefaultMiddleware => getDefaultMiddleware(),
+    devTools: process.env.NODE_ENV !== 'production',
+    
+})
+
 
 export default store;
