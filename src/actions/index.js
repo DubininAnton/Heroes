@@ -42,12 +42,12 @@ import { createAction } from "@reduxjs/toolkit";
 
 // export const heroesFetchingError = createAction('HEROES_FETCHING_ERROR');
 
-export const filtersFetched = (filters) => {
-    return {
-        type: 'FILTERS_FETCHED',
-        payload: filters
-    }
-}
+// export const filtersFetched = (filters) => {
+//     return {
+//         type: 'FILTERS_FETCHED',
+//         payload: filters
+//     }
+// }
 
 // export const changedHero = (responceHero) => {
 //     return {

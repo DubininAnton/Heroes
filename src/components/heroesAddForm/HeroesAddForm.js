@@ -1,11 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { useHttp } from "../../hooks/http.hook"; 
-import { filtersFetched } from "../../actions";
 import { v4 as uuidv4 } from 'uuid';
 import { Formik, Form, useField, Field } from "formik";
 import * as Yup from 'yup';
 import { newheroesFetched } from "../heroesList/heroesSlice";
+import { fetchedFilters } from "../heroesFilters/filtersSlice";
 
 
 // Задача для этого компонента:
@@ -20,14 +19,10 @@ import { newheroesFetched } from "../heroesList/heroesSlice";
 
 const HeroesAddForm = () => {
     const {filters} = useSelector(state => state.filters)
-    const {request} = useHttp();
     const dispatch = useDispatch();
     
     useEffect(() => {
-        request("http://localhost:3001/filters")
-            .then(data => dispatch(filtersFetched(data)))
-
-        // eslint-disable-next-line
+         dispatch(fetchedFilters())
     }, []);
 
     const MyTextField = ({ label, ...props }) => {

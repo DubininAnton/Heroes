@@ -1,4 +1,4 @@
-import {useHttp} from '../../hooks/http.hook';
+
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {newheroesFetched, fetchHeroes} from './heroesSlice';
@@ -29,7 +29,7 @@ const HeroesList = ({newHero}) => {
     const filteredHeroes = useSelector(filteredHeroesSelector);
     const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);
     const dispatch = useDispatch();
-    const {request} = useHttp();
+
 
     // Использовал ReduxThunk
     useEffect(() => {
