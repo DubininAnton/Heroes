@@ -5,7 +5,7 @@ import {newheroesFetched, fetchHeroes} from './heroesSlice';
 import {heroesFetched} from './heroesSlice';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
-import { createSelector } from 'reselect';
+import { createSelector } from '@reduxjs/toolkit';
 
 // Задача для этого компонента:
 // При клике на "крестик" идет удаление персонажа из общего состояния
